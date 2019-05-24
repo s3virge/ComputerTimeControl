@@ -12,9 +12,36 @@ namespace ComputerTimeControl
     {
         private const String regKey = "ComputerTimeControl";
         private const String regValue = "computerStartTime";
+        private String pcStartData = "";
+        private String pcStartTime = "";
+        private String pcTimeNow = "";
+        private String pcDataNow = "";
 
+        public ComputerStartTime()
+        {
+            if (!RegIsKeyExist())
+            {
+                RegSet();
+            }
+            else
+            {
+                GetDataAndTime();
+                GetCurrentDataAndTime();
+            }
+        }
+
+        public String GetStartData()
+        {
+            return pcStartData;
+        }
+
+        public String GetStartTime()
+        {
+            return pcStartTime;
+        }
+        
         //сохранить в реестр дату и время запуска комьютера
-        public void Set()
+        public void RegSet()
         {
             DateTime dateTime = DateTime.Now;
 
@@ -24,9 +51,10 @@ namespace ComputerTimeControl
             //storing the values  
             key.SetValue(regValue, dateTime);
             key.Close();
-        }       
-        
-        public String Get()
+        }
+
+        /*возвращает строку в виде дата плюс время запука компьютора*/
+        public String RegGet()
         {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
@@ -39,6 +67,35 @@ namespace ComputerTimeControl
             }
 
             return pcStartTime;
+        }
+
+        /*возвращает массив содержащий дату и время начала работі компьютера*/
+        public String[] GetDataAndTime()
+        {
+            String strData = RegGet();
+            String[] arrDataAndTime = strData.Split(' ');
+
+            pcStartData = arrDataAndTime[0];
+            pcStartTime = arrDataAndTime[1];
+
+            return arrDataAndTime;
+        }
+
+        /*получить текущую дату и время*/
+        private void GetCurrentDataAndTime()
+        {
+            DateTime time = DateTime.Now;
+            DateTime date = DateTime.Today;
+
+            pcTimeNow = time.ToString(); // тут получается дата + 00:00:00
+            pcDataNow = date.ToString();
+        }
+
+        /*проверить есть ли ключ в реестре*/
+        public bool RegIsKeyExist()
+        {
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
+            return key != null;
         }
     }
 }
