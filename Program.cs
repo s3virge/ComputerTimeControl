@@ -14,12 +14,7 @@ namespace ComputerTimeControl
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            ComputerStartTime pcStartTime = new ComputerStartTime();
-
-            Console.WriteLine("pc start data = " + pcStartTime.GetStartData());
-            Console.WriteLine("pc start time = " + pcStartTime.GetStartTime());
-
+        {            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

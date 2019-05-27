@@ -11,37 +11,51 @@ namespace ComputerTimeControl
     class ComputerStartTime
     {
         private const String regKey = "ComputerTimeControl";
-        private const String regValue = "computerStartTime";
-        private String pcStartData = "";
-        private String pcStartTime = "";
-        private String pcTimeNow = "";
-        private String pcDataNow = "";
+        private const String regPcStartDateTime = "StartTime";
+        private const String regAllowedTimeOfWork = "regAllowedTimeOfWork"; 
+        private static int AllowedTimeOfWork = 2; //let it be 2 hours by default       
+        private DateTime pcStartDateTime;
 
         public ComputerStartTime()
         {
+            /*Сохранить дату в реестр если ее там нет*/
             if (!RegIsKeyExist())
             {
-                RegSet();
+                RegSetPcStartDateTime();
+                RegSetAllowedTimeOfWork();
             }
             else
             {
-                GetDataAndTime();
-                GetCurrentDataAndTime();
-            }
+                //получить сохраненную в реестре дату и время
+                RegGetPcStartDateTime();
+                RegGetAllowedTimeOfWork();
+                /*сравнить дату в реестре с текущей датой*/
+                /*если даті не совпадают значит комп включили уже в другой день, то*/
+                if (!IsStoredRegDateAdTodayAreEquals())
+                {
+                    /*устанавливаем новую дату */
+                    RegSetPcStartDateTime();
+                }
+            }            
         }
 
-        public String GetStartData()
+        public DateTime GetPcStartDateTime()
         {
-            return pcStartData;
+            return pcStartDateTime;
         }
 
-        public String GetStartTime()
+        public static void SetAllowedTimeOfWork(int Time)
         {
-            return pcStartTime;
+            AllowedTimeOfWork = Time;
         }
+
+        //public int GetAllowedTimeOfWork()
+        //{
+        //    return AllowedTimeOfWork;
+        //}
         
-        //сохранить в реестр дату и время запуска комьютера
-        public void RegSet()
+        //сохранить в реестр дату и время запуска комьютера в tiсks
+        private void RegSetPcStartDateTime()
         {
             DateTime dateTime = DateTime.Now;
 
@@ -49,12 +63,12 @@ namespace ComputerTimeControl
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\" + regKey);
 
             //storing the values  
-            key.SetValue(regValue, dateTime);
+            key.SetValue(regPcStartDateTime, dateTime.Ticks);
             key.Close();
         }
 
-        /*возвращает строку в виде дата плюс время запука компьютора*/
-        public String RegGet()
+        /*Сохраняет в свойство класса время и дату запука компьютора*/
+        private void RegGetPcStartDateTime()
         {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
@@ -62,40 +76,48 @@ namespace ComputerTimeControl
             //if it does exist, retrieve the stored values  
             if (key != null)
             {
-                pcStartTime = Convert.ToString(key.GetValue(regValue));
+                pcStartTime = Convert.ToString(key.GetValue(regPcStartDateTime));
+                /*строку из реестра конвертим в long и преобразуем в DateTime*/
+                pcStartDateTime = new DateTime(Convert.ToInt64(key.GetValue(regPcStartDateTime)));
                 key.Close();
             }
-
-            return pcStartTime;
-        }
-
-        /*возвращает массив содержащий дату и время начала работі компьютера*/
-        public String[] GetDataAndTime()
-        {
-            String strData = RegGet();
-            String[] arrDataAndTime = strData.Split(' ');
-
-            pcStartData = arrDataAndTime[0];
-            pcStartTime = arrDataAndTime[1];
-
-            return arrDataAndTime;
-        }
-
-        /*получить текущую дату и время*/
-        private void GetCurrentDataAndTime()
-        {
-            DateTime time = DateTime.Now;
-            DateTime date = DateTime.Today;
-
-            pcTimeNow = time.ToString(); // тут получается дата + 00:00:00
-            pcDataNow = date.ToString();
         }
 
         /*проверить есть ли ключ в реестре*/
-        public bool RegIsKeyExist()
+        private bool RegIsKeyExist()
         {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             return key != null;
+        }
+
+        /*сравнить дату в реесте с текущей */
+        private bool IsStoredRegDateAdTodayAreEquals()
+        {
+            return (pcStartDateTime.Date == DateTime.Today);
+        }
+
+        /*хранить в реестре разрешенній период работі*/
+        private void RegSetAllowedTimeOfWork()
+        {
+            //сохранить в реестр дату и время запуска помьютора
+            RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\" + regKey);
+
+            //storing the values  
+            key.SetValue(regAllowedTimeOfWork, AllowedTimeOfWork);
+            key.Close();
+        }
+
+        /*gets from reg stored value of allowed time of work*/
+        private void RegGetAllowedTimeOfWork()
+        {
+            //opening the subkey  
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
+
+            if (key != null)
+            {
+                AllowedTimeOfWork = Convert.ToInt16(key.GetValue(regAllowedTimeOfWork));                
+                key.Close();
+            }
         }
     }
 }
