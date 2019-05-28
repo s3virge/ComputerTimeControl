@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnOk = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.allowedHours = new System.Windows.Forms.NumericUpDown();
             this.allowedMinutes = new System.Windows.Forms.NumericUpDown();
@@ -36,24 +36,25 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.powerOffHours = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.powerOffMinutes = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.allowedHours)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.allowedMinutes)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.powerOffHours)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.powerOffMinutes)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // btnOk
             // 
-            this.button1.Location = new System.Drawing.Point(152, 93);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 32);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnOk.Location = new System.Drawing.Point(152, 93);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(75, 32);
+            this.btnOk.TabIndex = 0;
+            this.btnOk.Text = "OK";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.BtnOk_Click);
             // 
             // btnExit
             // 
@@ -67,6 +68,11 @@
             // allowedHours
             // 
             this.allowedHours.Location = new System.Drawing.Point(173, 10);
+            this.allowedHours.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
             this.allowedHours.Name = "allowedHours";
             this.allowedHours.Size = new System.Drawing.Size(40, 20);
             this.allowedHours.TabIndex = 2;
@@ -74,6 +80,11 @@
             // allowedMinutes
             // 
             this.allowedMinutes.Location = new System.Drawing.Point(258, 10);
+            this.allowedMinutes.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
             this.allowedMinutes.Name = "allowedMinutes";
             this.allowedMinutes.Size = new System.Drawing.Size(40, 20);
             this.allowedMinutes.TabIndex = 4;
@@ -114,12 +125,17 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Віключать через каждіе";
             // 
-            // numericUpDown1
+            // powerOffHours
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(173, 45);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(40, 20);
-            this.numericUpDown1.TabIndex = 9;
+            this.powerOffHours.Location = new System.Drawing.Point(173, 45);
+            this.powerOffHours.Maximum = new decimal(new int[] {
+            23,
+            0,
+            0,
+            0});
+            this.powerOffHours.Name = "powerOffHours";
+            this.powerOffHours.Size = new System.Drawing.Size(40, 20);
+            this.powerOffHours.TabIndex = 9;
             // 
             // label5
             // 
@@ -130,12 +146,17 @@
             this.label5.TabIndex = 10;
             this.label5.Text = "часов";
             // 
-            // numericUpDown2
+            // powerOffMinutes
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(258, 47);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(40, 20);
-            this.numericUpDown2.TabIndex = 11;
+            this.powerOffMinutes.Location = new System.Drawing.Point(258, 47);
+            this.powerOffMinutes.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.powerOffMinutes.Name = "powerOffMinutes";
+            this.powerOffMinutes.Size = new System.Drawing.Size(40, 20);
+            this.powerOffMinutes.TabIndex = 11;
             // 
             // label6
             // 
@@ -152,9 +173,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(360, 146);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.numericUpDown2);
+            this.Controls.Add(this.powerOffMinutes);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.powerOffHours);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -162,13 +183,13 @@
             this.Controls.Add(this.allowedMinutes);
             this.Controls.Add(this.allowedHours);
             this.Controls.Add(this.btnExit);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnOk);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.allowedHours)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.allowedMinutes)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.powerOffHours)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.powerOffMinutes)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -176,7 +197,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.NumericUpDown allowedHours;
         private System.Windows.Forms.NumericUpDown allowedMinutes;
@@ -184,9 +205,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown powerOffHours;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown powerOffMinutes;
         private System.Windows.Forms.Label label6;
     }
 }
