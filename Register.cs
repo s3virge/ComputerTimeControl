@@ -5,10 +5,10 @@ using Microsoft.Win32;
 namespace ComputerTimeControl {
     /*класс будет записівать и получать */
     class Register {
-        private const String regKey = "ComputerTimeControl";
-        private const String regPcStartDateTime = "StartTime";
-        private const String regAllowedTimeOfWork = "AllowedTimeOfWork";
-        private const String regPowerOffPeriod = "PowerOffPeriod";
+        private const string regKey = "ComputerTimeControl";
+        private const string regPcStartDateTime = "StartTime";
+        private const string regAllowedTimeOfWork = "AllowedTimeOfWork";
+        private const string regPowerOffPeriod = "PowerOffPeriod";
         private const int defaultAllowedTimeOfWork = 2;
 
         public Register() {
@@ -17,19 +17,15 @@ namespace ComputerTimeControl {
                 WritePcStartDateTime();
                 WriteAllowedTimeOfWork(defaultAllowedTimeOfWork);
             }
-            else {
-                //получить сохраненную в реестре дату и время
-                ReadPcStartDateTime();
-                ReadAllowedTimeOfWork();
-                ReadPowerOffPeriod();
+            else {                                
                 /*сравнить дату в реестре с текущей датой*/
                 /*если даті не совпадают значит комп включили уже в другой день, то*/
-                if (!IsStoredRegDateAdTodayAreEquals()) {
+                if (!IsStoredRegDateAndTodayAreEquals()) {
                     /*устанавливаем новую дату */
                     WritePcStartDateTime();
                 }
             }
-        }
+        }        
 
         //сохранить в реестр дату и время запуска комьютера в tiсks
         private void WritePcStartDateTime() {
@@ -67,7 +63,7 @@ namespace ComputerTimeControl {
         /// <summary>
         /// сравнить дату в реесте с текущей
         /// </summary>
-        private bool IsStoredRegDateAdTodayAreEquals() {
+        private bool IsStoredRegDateAndTodayAreEquals() {
             DateTime pcStartDateTime = ReadPcStartDateTime();
             return (pcStartDateTime.Date == DateTime.Today);
         }
@@ -84,8 +80,10 @@ namespace ComputerTimeControl {
             key.Close();
         }
 
-        /*gets from reg stored value of allowed time of work*/
-        private int ReadAllowedTimeOfWork() {
+        /// <summary>
+        /// gets from reg stored value of allowed time of work
+        /// </summary>
+        public int ReadAllowedTimeOfWork() {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             int time = 0;

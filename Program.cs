@@ -17,7 +17,11 @@ namespace ComputerTimeControl
         {            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            /*main form does not shown*/
+            Form form = new MainForm();
+            
+            Application.Run(form);
         }
     }
 }
