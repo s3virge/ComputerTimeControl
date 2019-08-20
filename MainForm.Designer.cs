@@ -122,11 +122,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 49);
+            this.label4.Location = new System.Drawing.Point(13, 49);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(127, 13);
+            this.label4.Size = new System.Drawing.Size(148, 13);
             this.label4.TabIndex = 8;
-            this.label4.Text = "Віключать через каждіе";
+            this.label4.Text = "Блокировать через каждые";
             // 
             // powerOffHours
             // 
@@ -200,7 +200,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.onClosing);
-            
             this.Resize += new System.EventHandler(this.OnResize);
             ((System.ComponentModel.ISupportInitialize)(this.allowedHours)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.allowedMinutes)).EndInit();

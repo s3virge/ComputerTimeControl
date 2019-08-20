@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ComputerTimeControl {
     public partial class MainForm : Form {
         private Register reg;
-        private WorkTimeControl timeControl;
+        private TimeParameters timeControl;
         public MainForm() {
             InitializeComponent();
 
             //Register.DeleteKey();
-            
+
             //retrive from reg nesessary values
             reg = new Register();
-            timeControl = new WorkTimeControl();
+            timeControl = new TimeParameters();
 
             timeControl.SetAllowedTimeOfWork(reg.ReadAllowedTimeOfWork());
-            //timeControl.SetComputerStartDateTime(reg.Read);
+            timeControl.SetComputerStartDateTime(DateTime.Now);
             timeControl.SetPowerOffPeriod(reg.ReadPowerOffPeriod());
 
             Debug.WriteLine("Allowed time of work - {0}, PowerOff hours - {1}, power off min - {2}",
@@ -33,6 +34,21 @@ namespace ComputerTimeControl {
 
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
+
+            StartTimeControl();
+        }
+
+        private void StartTimeControl() {
+            TimeControl timeControl = new TimeControl();
+
+            var dayTimePiriodContol = new Task(timeControl.CheckDayTimePeriod);
+            dayTimePiriodContol.Start();
+
+            var dayTimeOutContol = new Task(timeControl.CheckTimeout);
+            dayTimeOutContol.Start();
+
+            var tasks = new[] { dayTimePiriodContol, dayTimeOutContol };
+            Task.WaitAll(tasks);
         }
 
         private void OnResize(object sender, EventArgs e) {
