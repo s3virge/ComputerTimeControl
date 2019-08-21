@@ -5,8 +5,10 @@ using System.Windows.Forms;
 
 namespace ComputerTimeControl {
     public partial class MainForm : Form {
+
         private Register reg;
         private TimeParameters timeControl;
+
         public MainForm() {
             InitializeComponent();
 
