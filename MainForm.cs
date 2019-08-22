@@ -103,7 +103,7 @@ namespace ComputerTimeControl {
         }
 
         private void HideToSystemArea() {
-            Hide();
+            Hide(); //System.InvalidOperationException: 
             notifyIcon.Visible = true;
         }
     }

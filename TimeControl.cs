@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ComputerTimeControl {
     /// <summary>
@@ -30,10 +31,10 @@ namespace ComputerTimeControl {
             //блокировать рабочий стол на определённое время
             //запустить таймер             
             TimerCallback tm = new TimerCallback(LockDesctop);
-            int pauseTime = 5 * 60 * 1000; //convert minutes to miliseconds 
-            int timeOut = timeParams.GetTimeLimitPerDayMinutes() * 1000 + pauseTime;
+            int pauseTimeInMS = 5 * 60 * 1000; //convert minutes to miliseconds 
+            int timeOut = timeParams.GetTimeLimitPerDayMinutes() * 60000 + pauseTimeInMS;
             // создаем таймер
-            Timer timer = new Timer(tm, 0, 0, timeOut);
+            System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
         }
         public void CheckDayTimePeriod() {
             ShutDown();
@@ -70,6 +71,21 @@ namespace ComputerTimeControl {
 
          public void LockDesctop(object state) {
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
+
+            Application.EnableVisualStyles();
+            var form = new Form();
+
+            form.FormBorderStyle = FormBorderStyle.None;
+            form.WindowState = FormWindowState.Maximized;
+
+            var button = new Button() {
+                Text = "Close"
+            };
+
+            button.Click += (sender, e) => Application.Exit();
+
+            form.Controls.Add(button);
+            Application.Run(form);
         }
     }
 }
