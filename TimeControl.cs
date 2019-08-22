@@ -56,7 +56,8 @@ namespace ComputerTimeControl {
             if (timeDiff.TotalMinutes < timeLimitPerDay) {
                 //можно остановить процесс на нужное количество времени
                 //convert to miliseconds
-                int waitTime = (timeLimitPerDay - (int)timeDiff.TotalMinutes) * 1000 ;
+                int waitTime = (timeLimitPerDay - (int)timeDiff.TotalMinutes);
+                waitTime = waitTime * 60000;
                 Debug.WriteLine("waitTime = {0} ms", waitTime);
 
                 Thread.Sleep(waitTime);

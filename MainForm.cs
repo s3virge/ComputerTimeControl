@@ -14,10 +14,10 @@ namespace ComputerTimeControl {
             InitializeComponent();
 
             //Register.DeleteKey();
-                       
+
             reg = new Register();
             timeControl = new TimeParameters();
-            
+
             //retrive from reg nesessary values
             timeControl.SetTimeLimitPerDayInMinutes(reg.ReadDayTimeLimit());
             timeControl.SetComputerStartDateTime(DateTime.Now);
@@ -43,6 +43,13 @@ namespace ComputerTimeControl {
 
         private void StartTimeControl() {
             TimeControl timeControl = new TimeControl();
+
+            /*You have to be aware of the differences between a Task and a Thread. 
+             * A Task is something you want to be done. 
+             * A thread is one of the many possible workers which performs that task. 
+             * Separate tasks don't have to be performed by separate threads. 
+             * The same thread can perform several Tasks. One task might be performed by several threads.
+            */
 
             var dayTimePiriodContol = new Thread(timeControl.CheckDayTimePeriod);
             dayTimePiriodContol.Start();
