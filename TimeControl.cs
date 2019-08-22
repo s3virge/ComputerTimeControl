@@ -40,15 +40,27 @@ namespace ComputerTimeControl {
         }
                 
         public void ShutDown() {
+
+            //вычистилть сколько времени за сегодня уже отработал комп
+
             //когда компютер начал работать
             DateTime dtComputerStart = timeParams.GetComputerStartDateTime();
             //какой период времени работы в сутки разрешен
             int timeLimitPerDay = timeParams.GetTimeLimitPerDayInMinutes();
 
-            //int breakPeriod = timeParams.GetTimeBeforBreak();
+            DateTime currentTime = DateTime.Now;
+
+            //TimeSpan - промежуток времени
+            TimeSpan timeDiff = currentTime.Subtract(dtComputerStart);
                        
-            //можно остановить процесс на нужное количество времени
-            //Thread.Sleep(WaitTime);
+            if (timeDiff.TotalMinutes < timeLimitPerDay) {
+                //можно остановить процесс на нужное количество времени
+                //convert to miliseconds
+                int waitTime = (timeLimitPerDay - (int)timeDiff.TotalMinutes) * 1000 ;
+                Debug.WriteLine("waitTime = {0} ms", waitTime);
+
+                Thread.Sleep(waitTime);
+            }
 
             //показать сообщение о том что лимит работы компьютера достигнут
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
