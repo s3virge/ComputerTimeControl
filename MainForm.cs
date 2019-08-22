@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,7 +13,7 @@ namespace ComputerTimeControl {
         public MainForm() {
             InitializeComponent();
 
-            Register.DeleteKey();
+            //Register.DeleteKey();
                        
             reg = new Register();
             timeControl = new TimeParameters();
@@ -43,14 +44,14 @@ namespace ComputerTimeControl {
         private void StartTimeControl() {
             TimeControl timeControl = new TimeControl();
 
-            var dayTimePiriodContol = new Task(timeControl.CheckDayTimePeriod);
+            var dayTimePiriodContol = new Thread(timeControl.CheckDayTimePeriod);
             dayTimePiriodContol.Start();
 
-            var dayTimeOutContol = new Task(timeControl.CheckTimeout);
+            var dayTimeOutContol = new Thread(timeControl.CheckTimeout);
             dayTimeOutContol.Start();
 
-            var tasks = new[] { dayTimePiriodContol, dayTimeOutContol };
-            Task.WaitAll(tasks);
+            //var tasks = new[] { dayTimeOutContol };
+            //Task.WaitAll(tasks);
         }
 
         private void OnResize(object sender, EventArgs e) {
