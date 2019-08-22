@@ -7,15 +7,17 @@ namespace ComputerTimeControl {
     class Register {
         private const string regKey = "ComputerTimeControl";
         private const string regPcStartDateTime = "StartTime";
-        private const string regAllowedTimeOfWork = "AllowedTimeOfWork";
-        private const string regPowerOffPeriod = "PowerOffPeriod";
-        private const int defaultAllowedTimeOfWork = 2;
+        private const string regDayTimeLimit = "TimeLimitPerDayInMinutes";
+        private const string regBreakPeriod = "BreakPeriod";
+        private const int defaultDayTimeLimit = 2 * 60 + 10; //two hours = 120 min
+        private const int defaultBreakPeriod = 61; //in minutes
 
         public Register() {
             /*Сохранить дату в реестр если ее там нет*/
             if (!IsKeyExist()) {
                 WritePcStartDateTime();
-                WriteAllowedTimeOfWork(defaultAllowedTimeOfWork);
+                WriteDayTimeLimit(defaultDayTimeLimit);
+                WriteBreakPeriod(defaultBreakPeriod);
             }
             else {                                
                 /*сравнить дату в реестре с текущей датой*/
@@ -40,7 +42,7 @@ namespace ComputerTimeControl {
         }
 
         /*Сохраняет в свойство класса время и дату запука компьютора*/
-        private DateTime ReadPcStartDateTime() {
+        public DateTime ReadPcStartDateTime() {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             DateTime dt = new DateTime();
@@ -71,25 +73,25 @@ namespace ComputerTimeControl {
         /// <summary>
         /// сохранить в реестре разрешенній период работі
         /// </summary>
-        public void WriteAllowedTimeOfWork(int timeOfWork) {
+        public void WriteDayTimeLimit(int timeLimitInMinutes) {
             //сохранить в реестр дату и время запуска помьютора
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\" + regKey);
 
             //storing the values  
-            key.SetValue(regAllowedTimeOfWork, timeOfWork);
+            key.SetValue(regDayTimeLimit, timeLimitInMinutes);
             key.Close();
         }
 
         /// <summary>
         /// gets from reg stored value of allowed time of work
         /// </summary>
-        public int ReadAllowedTimeOfWork() {
+        public int ReadDayTimeLimit() {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             int time = 0;
 
             if (key != null) {
-                time = Convert.ToInt16(key.GetValue(regAllowedTimeOfWork));
+                time = Convert.ToInt16(key.GetValue(regDayTimeLimit));
                 key.Close();
             }
 
@@ -108,22 +110,22 @@ namespace ComputerTimeControl {
             }
         }
 
-        public void WritePowerOffPeriod(int period) {
+        public void WriteBreakPeriod(int period) {
             //сохранить в реестр дату и время запуска помьютора
             RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\" + regKey);
 
             //storing the values  
-            key.SetValue(regPowerOffPeriod, period);
+            key.SetValue(regBreakPeriod, period);
             key.Close();
         }
 
-        public int ReadPowerOffPeriod() {
+        public int ReadBreakPeriod() {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             int period = 0;
 
             if (key != null) {
-                period = (Convert.ToInt16(key.GetValue(regPowerOffPeriod)));
+                period = (Convert.ToInt16(key.GetValue(regBreakPeriod)));
                 key.Close();
             }
 

@@ -2,63 +2,58 @@
 
 namespace ComputerTimeControl {
     class TimeParameters {
-        private int allowedTimeOfWork;
-        private int powerOffPeriod;
-        private DateTime computerStartDateTime;
+        private int timeLimitPerDayInMinutes;
+        private int timeBeforeBreakInMinutes;
+        private DateTime dtComputerStart;
 
         public TimeParameters() {
         }
 
-        /// <summary>
-        /// присвоить свойству класса AllowedTimeOfWork значения часов и минут 
-        /// </summary>
-        /// <param name="iHours">разрешено часов</param>
-        /// <param name="iMinutes">разрешено минут</param>
-        public void SetAllowedTimeOfWork(int iHours, int iMinutes) {
-            allowedTimeOfWork = iHours * 60 + iMinutes;
+        public void SetTimeLimitPerDay(int iHours, int iMinutes) {
+            timeLimitPerDayInMinutes = iHours * 60 + iMinutes;
         }
-        public void SetAllowedTimeOfWork(int timeOfWork) {
-            allowedTimeOfWork = timeOfWork;
+        public void SetTimeLimitPerDayInMinutes(int timeLimitInMinutes) {
+            timeLimitPerDayInMinutes = timeLimitInMinutes;
         }
 
-        public int GetAllowedTimeOfWork() {
-            return allowedTimeOfWork;
+        public int GetTimeLimitPerDayInMinutes() {
+            return timeLimitPerDayInMinutes;
         }
 
         public DateTime GetComputerStartDateTime() {
-            return computerStartDateTime;
-        }
-
-        public int GetAllowedHours() {
-            return allowedTimeOfWork / 60;
-        }
-
-        public int GetAllowedMinutes() {
-            return allowedTimeOfWork - ((allowedTimeOfWork / 60) * 60);
+            return dtComputerStart;
         }
 
         public void SetComputerStartDateTime(DateTime pcStartDateTime) {
-            computerStartDateTime = pcStartDateTime;
+            dtComputerStart = pcStartDateTime;
         }
 
-        public int GetPowerOffPeriod() {
-            return powerOffPeriod;
+        public int GetTimeLimitPerDayHours() {
+            return timeLimitPerDayInMinutes / 60;
         }
 
-        public int GetPowerOffHours() {
-            return powerOffPeriod / 60;
+        public int GetTimeLimitPerDayMinutes() {
+            return timeLimitPerDayInMinutes - ((timeLimitPerDayInMinutes / 60) * 60);
+        }
+        
+        public int GetTimeBeforBreak() {
+            return timeBeforeBreakInMinutes;
         }
 
-        public int GetPowerOffMinutes() {
-            return powerOffPeriod - ((powerOffPeriod / 60) * 60);
+        public int GetTimeBeforBreakHours() {
+            return timeBeforeBreakInMinutes / 60;
         }
 
-        public void SetPowerOffPeriod(int timePeriod) {
-            powerOffPeriod = timePeriod;
+        public int GetTimeBeforBreakMinutes() {
+            return timeBeforeBreakInMinutes - ((timeBeforeBreakInMinutes / 60) * 60);
         }
 
-        public void SetPowerOffPeriod(int iHours, int iMinutes) {
-            powerOffPeriod = iHours * 60 + iMinutes;
+        public void SetTimeBeforBreak(int timePeriod) {
+            timeBeforeBreakInMinutes = timePeriod;
+        }
+
+        public void SetTimeBeforBreak(int iHours, int iMinutes) {
+            timeBeforeBreakInMinutes = iHours * 60 + iMinutes;
         }
 
         ///// <summary>

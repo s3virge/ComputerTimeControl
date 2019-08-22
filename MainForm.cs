@@ -12,27 +12,27 @@ namespace ComputerTimeControl {
         public MainForm() {
             InitializeComponent();
 
-            //Register.DeleteKey();
-
-            //retrive from reg nesessary values
+            Register.DeleteKey();
+                       
             reg = new Register();
             timeControl = new TimeParameters();
-
-            timeControl.SetAllowedTimeOfWork(reg.ReadAllowedTimeOfWork());
+            
+            //retrive from reg nesessary values
+            timeControl.SetTimeLimitPerDayInMinutes(reg.ReadDayTimeLimit());
             timeControl.SetComputerStartDateTime(DateTime.Now);
-            timeControl.SetPowerOffPeriod(reg.ReadPowerOffPeriod());
+            timeControl.SetTimeBeforBreak(reg.ReadBreakPeriod());
 
             Debug.WriteLine("Allowed time of work - {0}, PowerOff hours - {1}, power off min - {2}",
-                timeControl.GetAllowedTimeOfWork(),
-                timeControl.GetPowerOffHours(),
-                timeControl.GetAllowedMinutes());
+                timeControl.GetTimeLimitPerDayInMinutes(),
+                timeControl.GetTimeBeforBreakHours(),
+                timeControl.GetTimeLimitPerDayMinutes());
 
             /*shows the values in controls*/
-            allowedHours.Value = timeControl.GetAllowedHours();
-            allowedMinutes.Value = timeControl.GetAllowedMinutes();
+            allowedHours.Value = timeControl.GetTimeLimitPerDayHours();
+            allowedMinutes.Value = timeControl.GetTimeLimitPerDayMinutes();
 
-            powerOffHours.Value = timeControl.GetPowerOffHours();
-            powerOffMinutes.Value = timeControl.GetPowerOffMinutes();
+            powerOffHours.Value = timeControl.GetTimeBeforBreakHours();
+            powerOffMinutes.Value = timeControl.GetTimeBeforBreakMinutes();
 
             WindowState = FormWindowState.Minimized;
             ShowInTaskbar = false;
@@ -83,10 +83,10 @@ namespace ComputerTimeControl {
         }
 
         private void BtnOk_Click(object sender, EventArgs e) {
-            timeControl.SetAllowedTimeOfWork((int)allowedHours.Value, (int)allowedMinutes.Value);
-            timeControl.SetPowerOffPeriod((int)powerOffHours.Value, (int)powerOffMinutes.Value);
-            reg.WriteAllowedTimeOfWork(timeControl.GetAllowedTimeOfWork());
-            reg.WritePowerOffPeriod(timeControl.GetPowerOffPeriod());
+            timeControl.SetTimeLimitPerDay((int)allowedHours.Value, (int)allowedMinutes.Value);
+            timeControl.SetTimeBeforBreak((int)powerOffHours.Value, (int)powerOffMinutes.Value);
+            reg.WriteDayTimeLimit(timeControl.GetTimeLimitPerDayInMinutes());
+            reg.WriteBreakPeriod(timeControl.GetTimeBeforBreak());
             HideToSystemArea();
         }
 
