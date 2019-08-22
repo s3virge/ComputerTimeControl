@@ -29,7 +29,9 @@ namespace ComputerTimeControl {
             }
         }        
 
-        //сохранить в реестр дату и время запуска комьютера в tiсks
+        /// <summary>
+        /// сохранить в реестр дату и время запуска комьютера в tiсks
+        /// </summary>
         private void WritePcStartDateTime() {
             DateTime dateTime = DateTime.Now;
 
@@ -41,7 +43,9 @@ namespace ComputerTimeControl {
             key.Close();
         }
 
-        /*Сохраняет в свойство класса время и дату запука компьютора*/
+        /// <summary>
+        /// Сохраняет в свойство класса время и дату запука компьютора        
+        /// </summary>
         public DateTime ReadPcStartDateTime() {
             //opening the subkey  
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
@@ -56,7 +60,9 @@ namespace ComputerTimeControl {
             return dt;
         }
 
-        /*проверить есть ли ключ в реестре*/
+        /// <summary>
+        /// проверить есть ли ключ в реестре        
+        /// </summary>
         private bool IsKeyExist() {
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
             return key != null;
