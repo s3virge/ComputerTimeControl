@@ -5,9 +5,15 @@ namespace ComputerTimeControl {
         private int timeLimitPerDayInMinutes;
         private int timeBeforeBreakInMinutes;
         private DateTime dtComputerStart;
+        private static int pauseTimeMS;
+
 
         public TimeParameters() {
         }
+
+        public int GetPauseTimeInMilisecons() { return pauseTimeMS; }
+        public void SetPauseTimeInMilisecons(int timeOfPauseInMilliseconds) {
+            pauseTimeMS = timeOfPauseInMilliseconds; }
 
         public void SetTimeLimitPerDay(int iHours, int iMinutes) {
             timeLimitPerDayInMinutes = iHours * 60 + iMinutes;

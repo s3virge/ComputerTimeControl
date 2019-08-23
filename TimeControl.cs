@@ -31,10 +31,12 @@ namespace ComputerTimeControl {
             //блокировать рабочий стол на определённое время
             //запустить таймер             
             TimerCallback tm = new TimerCallback(LockDesctop);
-            int pauseTimeInMS = 5 * 60 * 1000; //convert minutes to miliseconds 
-            int timeOut = timeParams.GetTimeLimitPerDayMinutes() * 60000 + pauseTimeInMS;
+            int pauseTimeInMS = timeParams.GetPauseTimeInMilisecons(); 
+            int timeOut = timeParams.GetTimeBeforBreakMinutes() * 60000 + pauseTimeInMS;
             // создаем таймер
-            System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
+            //dueTime - The amount of time to delay before callback is invoked, in milliseconds.            
+          //System.Threading.Timer timer = new System.Threading.Timer(tm, 0, timeOut, timeOut);
+          System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
         }
         public void CheckDayTimePeriod() {
             ShutDown();
@@ -42,7 +44,7 @@ namespace ComputerTimeControl {
                 
         public void ShutDown() {
 
-            //вычистилть сколько времени за сегодня уже отработал комп
+            //how much time the computer has already worked for today
 
             //когда компютер начал работать
             DateTime dtComputerStart = timeParams.GetComputerStartDateTime();
@@ -55,9 +57,9 @@ namespace ComputerTimeControl {
             TimeSpan timeDiff = currentTime.Subtract(dtComputerStart);
                        
             if (timeDiff.TotalMinutes < timeLimitPerDay) {
-                //можно остановить процесс на нужное количество времени
-                //convert to miliseconds
+                //остановить процесс на нужное количество времени
                 int waitTime = (timeLimitPerDay - (int)timeDiff.TotalMinutes);
+                //convert to miliseconds
                 waitTime = waitTime * 60000;
                 Debug.WriteLine("waitTime = {0} ms", waitTime);
 
@@ -71,20 +73,8 @@ namespace ComputerTimeControl {
 
          public void LockDesctop(object state) {
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
-
-            Application.EnableVisualStyles();
-            var form = new Form();
-
-            form.FormBorderStyle = FormBorderStyle.None;
-            form.WindowState = FormWindowState.Maximized;
-
-            var button = new Button() {
-                Text = "Close"
-            };
-
-            button.Click += (sender, e) => Application.Exit();
-
-            form.Controls.Add(button);
+                      
+            var form = new LockScreen();
             Application.Run(form);
         }
     }

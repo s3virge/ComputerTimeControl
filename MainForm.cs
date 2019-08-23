@@ -22,6 +22,7 @@ namespace ComputerTimeControl {
             timeControl.SetTimeLimitPerDayInMinutes(reg.ReadDayTimeLimit());
             timeControl.SetComputerStartDateTime(DateTime.Now);
             timeControl.SetTimeBeforBreak(reg.ReadBreakPeriod());
+            timeControl.SetPauseTimeInMilisecons(5 * 60 * 1000); //5 minutes
 
             Debug.WriteLine("Allowed time of work - {0}, PowerOff hours - {1}, power off min - {2}",
                 timeControl.GetTimeLimitPerDayInMinutes(),
@@ -41,6 +42,7 @@ namespace ComputerTimeControl {
             StartTimeControl();
         }
 
+        
         private void StartTimeControl() {
             TimeControl timeControl = new TimeControl();
 
@@ -56,9 +58,6 @@ namespace ComputerTimeControl {
 
             var dayTimeOutContol = new Thread(timeControl.CheckTimeout);
             dayTimeOutContol.Start();
-
-            //var tasks = new[] { dayTimeOutContol };
-            //Task.WaitAll(tasks);
         }
 
         private void OnResize(object sender, EventArgs e) {
@@ -70,7 +69,7 @@ namespace ComputerTimeControl {
             }
         }
 
-        private void OnSystemAriaIconMouseDoubleClick(object sender, MouseEventArgs e) {
+        private void OnSystemAreaIconMouseDoubleClick(object sender, MouseEventArgs e) {
             Show();
             WindowState = FormWindowState.Normal;
             notifyIcon.Visible = false;
@@ -103,7 +102,14 @@ namespace ComputerTimeControl {
         }
 
         private void HideToSystemArea() {
-            Hide(); //System.InvalidOperationException: 
+            try {
+                Hide(); //System.InvalidOperationException: 
+            }
+            catch (InvalidOperationException operExc) {
+                Debug.WriteLine("{0}() gen an exception {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, operExc.Message);
+                //throw;
+            }
+
             notifyIcon.Visible = true;
         }
     }
