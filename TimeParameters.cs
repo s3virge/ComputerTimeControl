@@ -2,9 +2,9 @@
 
 namespace ComputerTimeControl {
     class TimeParameters {
-        private int timeLimitPerDayInMinutes;
-        private int timeBeforeBreakInMinutes;
-        private DateTime dtComputerStart;
+        private static int timeLimitPerDayInMinutes;
+        private static int timeBeforeBreakInMinutes;
+        private static DateTime dtComputerStart;
         private static int pauseTimeMS;
 
 
@@ -42,7 +42,7 @@ namespace ComputerTimeControl {
             return timeLimitPerDayInMinutes - ((timeLimitPerDayInMinutes / 60) * 60);
         }
         
-        public int GetTimeBeforBreak() {
+        public int GetTimeBeforBreakInMinutes() {
             return timeBeforeBreakInMinutes;
         }
 

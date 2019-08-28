@@ -27,22 +27,22 @@ namespace ComputerTimeControl {
                 timeParams.GetTimeBeforBreakHours(),
                 timeParams.GetTimeLimitPerDayMinutes());
         }
+
         public void CheckTimeout() {
             //блокировать рабочий стол на определённое время
             //запустить таймер             
             TimerCallback tm = new TimerCallback(LockDesctop);
             int pauseTimeInMS = timeParams.GetPauseTimeInMilisecons(); 
             int timeOut = timeParams.GetTimeBeforBreakMinutes() * 60000 + pauseTimeInMS;
+
+            Debug.WriteLine("CheckTimeout(). timeOut = {0}", timeOut);
+
             // создаем таймер
             //dueTime - The amount of time to delay before callback is invoked, in milliseconds.            
-          //System.Threading.Timer timer = new System.Threading.Timer(tm, 0, timeOut, timeOut);
-          System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
+          System.Threading.Timer timer = new System.Threading.Timer(tm, 0, timeOut, timeOut);
+          //System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
         }
         public void CheckDayTimePeriod() {
-            ShutDown();
-        }
-                
-        public void ShutDown() {
 
             //how much time the computer has already worked for today
 
@@ -55,7 +55,7 @@ namespace ComputerTimeControl {
 
             //TimeSpan - промежуток времени
             TimeSpan timeDiff = currentTime.Subtract(dtComputerStart);
-                       
+
             if (timeDiff.TotalMinutes < timeLimitPerDay) {
                 //остановить процесс на нужное количество времени
                 int waitTime = (timeLimitPerDay - (int)timeDiff.TotalMinutes);
@@ -66,6 +66,10 @@ namespace ComputerTimeControl {
                 Thread.Sleep(waitTime);
             }
 
+            ShutDown();
+        }
+                
+        public void ShutDown() {
             //показать сообщение о том что лимит работы компьютера достигнут
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
             System.Windows.Forms.MessageBox.Show("The pc will shutdown immediately.");

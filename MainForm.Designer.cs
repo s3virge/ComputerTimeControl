@@ -43,6 +43,11 @@
             this.powerOffMinutes = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.labelBeforBlockLeft = new System.Windows.Forms.Label();
+            this.labelBeforShotdownLeft = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.allowedHours)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.allowedMinutes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.powerOffHours)).BeginInit();
@@ -51,7 +56,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(152, 93);
+            this.btnOk.Location = new System.Drawing.Point(373, 200);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 32);
             this.btnOk.TabIndex = 0;
@@ -61,7 +66,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(248, 93);
+            this.btnCancel.Location = new System.Drawing.Point(469, 200);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 32);
             this.btnCancel.TabIndex = 3;
@@ -177,11 +182,56 @@
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.OnSystemAreaIconMouseDoubleClick);
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(20, 108);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(141, 13);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "До блокировки осталось: ";
+            // 
+            // labelBeforBlockLeft
+            // 
+            this.labelBeforBlockLeft.AutoSize = true;
+            this.labelBeforBlockLeft.Location = new System.Drawing.Point(198, 108);
+            this.labelBeforBlockLeft.Name = "labelBeforBlockLeft";
+            this.labelBeforBlockLeft.Size = new System.Drawing.Size(35, 13);
+            this.labelBeforBlockLeft.TabIndex = 14;
+            this.labelBeforBlockLeft.Text = "label8";
+            // 
+            // labelBeforShotdownLeft
+            // 
+            this.labelBeforShotdownLeft.AutoSize = true;
+            this.labelBeforShotdownLeft.Location = new System.Drawing.Point(198, 158);
+            this.labelBeforShotdownLeft.Name = "labelBeforShotdownLeft";
+            this.labelBeforShotdownLeft.Size = new System.Drawing.Size(35, 13);
+            this.labelBeforShotdownLeft.TabIndex = 16;
+            this.labelBeforShotdownLeft.Text = "label9";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(20, 158);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(154, 13);
+            this.label9.TabIndex = 15;
+            this.label9.Text = "До лимита в день осталось: ";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.TimerTick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 146);
+            this.ClientSize = new System.Drawing.Size(577, 244);
+            this.Controls.Add(this.labelBeforShotdownLeft);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.labelBeforBlockLeft);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.powerOffMinutes);
             this.Controls.Add(this.label5);
@@ -225,6 +275,11 @@
         private System.Windows.Forms.NumericUpDown powerOffMinutes;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label labelBeforBlockLeft;
+        private System.Windows.Forms.Label labelBeforShotdownLeft;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

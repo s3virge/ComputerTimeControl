@@ -9,8 +9,9 @@ namespace ComputerTimeControl {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
             WindowState = FormWindowState.Maximized;
+            TopMost = true;
 
-            intervalSeconds = 10;// * 60;
+            intervalSeconds = new TimeParameters().GetPauseTimeInMilisecons() / 1000;// * 60;
             ShowTime();
         }
 
