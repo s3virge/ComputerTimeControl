@@ -63,7 +63,18 @@ namespace ComputerTimeControl {
                 waitTime = waitTime * 60000;
                 Debug.WriteLine("waitTime = {0} ms", waitTime);
 
-                Thread.Sleep(waitTime);
+                /*
+                 System.Threading.ThreadInterruptedException: 'Thread was interrupted from a waiting state.'
+                 generates when main form were closed
+                 */
+                try {
+                    Thread.Sleep(waitTime);
+                }
+                catch (ThreadInterruptedException interruptEx) {
+                    Debug.WriteLine("{0}() gen an exception {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, interruptEx.Message);
+                    //do nothing
+                    return;
+                }
             }
 
             ShutDown();

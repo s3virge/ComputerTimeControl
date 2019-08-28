@@ -9,6 +9,8 @@ namespace ComputerTimeControl {
         private Register reg;
         private TimeParameters timeControl;
 
+        Thread dayTimePiriodContol, dayTimeOutContol;
+
         private int timeBefoBreakInSeconds;
 
         public MainForm() {
@@ -56,10 +58,10 @@ namespace ComputerTimeControl {
              * The same thread can perform several Tasks. One task might be performed by several threads.
             */
 
-            var dayTimePiriodContol = new Thread(timeControl.CheckDayTimePeriod);
+            dayTimePiriodContol = new Thread(timeControl.CheckDayTimePeriod);
             dayTimePiriodContol.Start();
 
-            var dayTimeOutContol = new Thread(timeControl.CheckTimeout);
+            dayTimeOutContol = new Thread(timeControl.CheckTimeout);
             dayTimeOutContol.Start();
 
             //запустить два таймера для отображения в главной форме сколько времени осталось до выклчения и сколько до блокировки.          
@@ -107,15 +109,15 @@ namespace ComputerTimeControl {
                 DialogResult result = MessageBox.Show("Application will be close. Do you want to continue?", "What to do?", MessageBoxButtons.YesNo);
 
                 if (result == DialogResult.Yes) {
-                    timer1.Enabled = false;
-                    timer1.Stop();                    
+                    dayTimeOutContol.Interrupt();
+                    dayTimePiriodContol.Interrupt();
                     return;
                 }
             }
 
             HideToSystemArea();
             /*event should be canceled*/
-            //e.Cancel = true;
+            e.Cancel = true;
         }
 
         private void BtnOk_Click(object sender, EventArgs e) {
