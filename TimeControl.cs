@@ -31,7 +31,7 @@ namespace ComputerTimeControl {
         public void CheckTimeout() {
             //блокировать рабочий стол на определённое время
             //запустить таймер             
-            TimerCallback tm = new TimerCallback(LockDesctop);
+            TimerCallback tm = new TimerCallback(LockDesktop);
             int pauseTimeInMS = timeParams.GetPauseTimeInMilisecons(); 
             int timeOut = timeParams.GetTimeBeforBreakMinutes() * 60000 + pauseTimeInMS;
 
@@ -42,6 +42,7 @@ namespace ComputerTimeControl {
           System.Threading.Timer timer = new System.Threading.Timer(tm, 0, timeOut, timeOut);
           //System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
         }
+
         public void CheckDayTimePeriod() {
 
             //how much time the computer has already worked for today
@@ -84,9 +85,19 @@ namespace ComputerTimeControl {
             //показать сообщение о том что лимит работы компьютера достигнут
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
             System.Windows.Forms.MessageBox.Show("The pc will shutdown immediately.");
+
+            //show message box
+            //launch shutdown -s -f -t 0
+            System.Diagnostics.Process process = new System.Diagnostics.Process();
+            System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
+            startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            startInfo.FileName = "cmd.exe";
+            startInfo.Arguments = "/C shutdown -s -f -t 360";
+            process.StartInfo = startInfo;
+            process.Start();
         }
 
-         public void LockDesctop(object state) {
+         public void LockDesktop(object state) {
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
                       
             var form = new LockScreen();
