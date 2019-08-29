@@ -7,12 +7,12 @@ namespace ComputerTimeControl {
     /// <summary>
     /// клас занимается контролем времени
     /// </summary>
-    class TimeControl {
+    class CheckOut {
 
         private Register reg;
         private TimeParameters timeParams;
-
-        public TimeControl() {
+        
+        public CheckOut() {
             reg = new Register();
             timeParams = new TimeParameters();
 
@@ -28,22 +28,19 @@ namespace ComputerTimeControl {
                 timeParams.GetTimeLimitPerDayMinutes());
         }
 
-        public void CheckTimeout() {
+        public void Timeout() {
             //блокировать рабочий стол на определённое время
-            //запустить таймер             
-            TimerCallback tm = new TimerCallback(LockDesktop);
-            int pauseTimeInMS = timeParams.GetPauseTimeInMilisecons(); 
-            int timeOut = timeParams.GetTimeBeforBreakMinutes() * 60000 + pauseTimeInMS;
+            int timeOut = timeParams.GetTimeBeforBreakMinutes() * 60000 + timeParams.GetPauseTimeInMilisecons();
 
             Debug.WriteLine("CheckTimeout(). timeOut = {0}", timeOut);
 
             // создаем таймер
             //dueTime - The amount of time to delay before callback is invoked, in milliseconds.            
-          System.Threading.Timer timer = new System.Threading.Timer(tm, 0, timeOut, timeOut);
+          System.Threading.Timer timer = new System.Threading.Timer(new TimerCallback(LockDesktop), null, 0, timeOut);
           //System.Threading.Timer timer = new System.Threading.Timer(tm, 0, 0, timeOut);
         }
 
-        public void CheckDayTimePeriod() {
+        public void DayPeriod() {
 
             //how much time the computer has already worked for today
 
@@ -84,18 +81,22 @@ namespace ComputerTimeControl {
         public void ShutDown() {
             //показать сообщение о том что лимит работы компьютера достигнут
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
-            System.Windows.Forms.MessageBox.Show("The pc will shutdown immediately.");
-
-            //show message box
+            
             //launch shutdown -s -f -t 0
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe";
-            startInfo.Arguments = "/C shutdown -s -f -t 360";
+            startInfo.Arguments = "/C shutdown -s -f -t 60";
             process.StartInfo = startInfo;
+
+#if DEBUG
+            MessageBox.Show("The pc will turn off immediately");
+#else
             process.Start();
+#endif
         }
+
 
          public void LockDesktop(object state) {
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);

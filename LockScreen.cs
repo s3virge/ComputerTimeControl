@@ -30,6 +30,11 @@ namespace ComputerTimeControl {
             this.Close();
         }
 
+        /// <summary>
+        /// shows timer on lock screen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TimerTick(object sender, EventArgs e) {
             // Set the caption to the current time.  
             //label1.Text = DateTime.Now.ToString();          
@@ -38,7 +43,7 @@ namespace ComputerTimeControl {
 
             ShowTime();
 
-            if (intervalSeconds < 0) {
+            if (intervalSeconds < 0) {                
                 timer1.Enabled = false;
                 this.Close();
             }

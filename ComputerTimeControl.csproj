@@ -52,7 +52,7 @@
     <Compile Include="LockScreen.Designer.cs">
       <DependentUpon>LockScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="TimeControl.cs" />
+    <Compile Include="CheckOut.cs" />
     <Compile Include="TimeParameters.cs" />
     <Compile Include="Register.cs" />
     <Compile Include="MainForm.cs">
