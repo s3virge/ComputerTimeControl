@@ -26,7 +26,7 @@ namespace ComputerTimeControl {
             label1.Text = string.Format("{0}:{1}", min, sec);
         }
 
-        private void Close_Click(object sender, EventArgs e) {
+        private void putOff_Click(object sender, EventArgs e) {
             this.Close();
         }
 

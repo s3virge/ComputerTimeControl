@@ -50,7 +50,7 @@ namespace ComputerTimeControl {
 
 
         private void StartTimeControl() {
-            CheckOut timeControl = new CheckOut();
+            CheckOut chekOut = new CheckOut();
 
             /*You have to be aware of the differences between a Task and a Thread. 
              * A Task is something you want to be done. 
@@ -59,13 +59,11 @@ namespace ComputerTimeControl {
              * The same thread can perform several Tasks. One task might be performed by several threads.
             */
 
-            dayTimePiriodContol = new Thread(timeControl.DayPeriod);
+            dayTimePiriodContol = new Thread(chekOut.DayPeriod);
             dayTimePiriodContol.Start();
 
-            dayTimeOutContol = new Thread(timeControl.Timeout);
-            dayTimeOutContol.Start();
-
-            //запустить два таймера для отображения в главной форме сколько времени осталось до выклчения и сколько до блокировки.          
+            dayTimeOutContol = new Thread(chekOut.Timeout);
+            dayTimeOutContol.Start();              
         }
 
         public void TimerTick(object sender, EventArgs e) {
