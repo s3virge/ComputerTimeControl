@@ -97,8 +97,7 @@ namespace ComputerTimeControl {
 #endif
         }
 
-
-         public void LockDesktop(object state) {
+        public void LockDesktop(object state) {
             Debug.WriteLine("() was invoked", System.Reflection.MethodBase.GetCurrentMethod().Name);
                       
             var form = new LockScreen();
