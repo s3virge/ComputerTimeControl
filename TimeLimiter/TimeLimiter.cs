@@ -16,6 +16,7 @@ namespace TimeLimiter
             if (args.Length != 0)
             {
                 //then get first argument and write to register 
+                //that will be the enabled Number of hours
                 reg.WriteEnabledNumberOfHours(args[0]);
             }
 
@@ -27,12 +28,12 @@ namespace TimeLimiter
                 }
             }
 
-            //сравнивать даты.
+            //compare dates
             DateTime startDate = reg.ReadTimeWhenComputerStartedWorking();
-            //если даты разные
+            //if dates is different
             if (IsToday(startDate) != true)
             {
-                //то обнулить NumberOfTimes
+                //then make NumberOfTimes equals zero
                 reg.WriteNumberOfTimes("0");
             }
 
@@ -50,7 +51,7 @@ namespace TimeLimiter
             //wait one houre befor shutdown the pc
             ShutDown(timeOut);
 
-            //make record in register about what time computer is poweroff            
+            //make record in register how many times the computer is poweroff      
             reg.WriteNumberOfTimes((Convert.ToInt32(reg.ReadNumberOfTimes()) + 1).ToString());
         }
 
