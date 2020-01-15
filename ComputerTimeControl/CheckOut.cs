@@ -31,8 +31,7 @@ namespace ComputerTimeControl {
                 timeParams.GetTimeBeforBreakHours(),
                 timeParams.GetTimeLimitPerDayMinutes());
         }
-
-
+        
         /// <summary>
         /// set timer which will be launch LockDesktop method
         /// </summary>
