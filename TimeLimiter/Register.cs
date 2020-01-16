@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using Microsoft.Win32;
 
 namespace TimeLimiter
@@ -13,6 +15,7 @@ namespace TimeLimiter
 
         private const string regEnabledNumberOfHours = "EnabledNumberOfHours";
         private const string regNumberOfTimes = "NumberOfTimes";
+        private const int timeLimit = 2 * 60 + 10; //two hours = 120 min
         
         //установить разрешенное число часов.
         public void WriteEnabledNumberOfHours(string numberOfHoures)
@@ -69,14 +72,12 @@ namespace TimeLimiter
 
             return numberOfTimes;
         }
-
-        private const int timeLimit = 2 * 60 + 10; //two hours = 120 min
-        
+                
         public Register() {
             /*record the time when computer is started working*/
             if (!IsKeyExist()) {
                 WriteTimeWhenComputerStartedWorking();
-                WriteDayTimeLimit(timeLimit);                
+                //WriteDayTimeLimit(timeLimit);                
             }
             else {                                
                 /*сравнить дату в реестре с текущей датой*/
@@ -175,27 +176,38 @@ namespace TimeLimiter
                 Debug.WriteLine("{0}() method gen an exception {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, aEx.Message);
             }
         }
+        
+        public void AddToRun()
+        {
+            //сохранить в реестр дату и время запуска помьютора
+            RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", RegistryKeyPermissionCheck.ReadWriteSubTree);
 
-        //public void WriteBreakPeriod(int period) {
-        //    //сохранить в реестр дату и время запуска помьютора
-        //    RegistryKey key = Registry.CurrentUser.CreateSubKey(@"SOFTWARE\" + regKey);
+            string GetAsseblyName()
+            {
+                return System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            }
 
-        //    //storing the values  
-        //    key.SetValue(regBreakPeriod, period);
-        //    key.Close();
-        //}
+            string GetAssemblyPath()
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
 
-        //public int ReadBreakPeriod() {
-        //    //opening the subkey  
-        //    RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey);
-        //    int period = 0;
+            //storing the values  
+            try
+            {
+                string exeName = GetAsseblyName();
+                string exePath = GetAssemblyPath();
+                key.SetValue(exeName, $@"{exePath}\{exeName}.exe");
+            }
+            catch (Exception exception) 
+            {
+                Console.WriteLine(exception.Message);
+            }
 
-        //    if (key != null) {
-        //        period = (Convert.ToInt16(key.GetValue(regBreakPeriod)));
-        //        key.Close();
-        //    }
-
-        //    return period;
-        //}
+            key.Close();
+        }
     }
 }

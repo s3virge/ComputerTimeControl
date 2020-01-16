@@ -10,7 +10,8 @@ namespace TimeLimiter
 
         public void Start(string[] args)
         {
-            Register reg = new Register();           
+            Register reg = new Register();
+            reg.AddToRun();
 
             //if exists command line arguments
             if (args.Length != 0)
