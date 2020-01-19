@@ -92,7 +92,7 @@ namespace TimeLimiter
         /// <summary>
         /// сохранить в реестр дату и время запуска комьютера в tiсks
         /// </summary>
-        private void WriteTimeWhenComputerStartedWorking() {
+        public void WriteTimeWhenComputerStartedWorking() {
             DateTime dateTime = DateTime.Now;
 
             //сохранить в реестр дату и время запуска помьютора

@@ -36,6 +36,7 @@ namespace TimeLimiter
             {
                 //then make NumberOfTimes equals zero
                 reg.WriteNumberOfTimes("0");
+                reg.WriteTimeWhenComputerStartedWorking();
             }
 
             int timeOut = 60 * 60 * 1000; //1 hour
