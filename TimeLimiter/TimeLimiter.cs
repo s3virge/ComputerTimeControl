@@ -15,7 +15,12 @@ namespace TimeLimiter
 
             //if exists command line arguments
             if (args.Length != 0)
-            {
+            {                
+                //argument is a number?
+                if (CheckArguments(args[0]) == false) {
+                    Console.WriteLine("Command line arguments is incorrect.");
+                }
+
                 //then get first argument and write to register 
                 //that will be the enabled Number of hours
                 reg.WriteEnabledNumberOfHours(args[0]);
@@ -55,6 +60,18 @@ namespace TimeLimiter
 
             //make record in register how many times the computer is poweroff      
             reg.WriteNumberOfTimes((Convert.ToInt32(reg.ReadNumberOfTimes()) + 1).ToString());
+        }
+
+        private bool CheckArguments(string arg) {
+            if (arg.Length > 1) {                
+                return false;
+            }
+
+            if (Char.IsDigit(arg, 0)){
+                return true;
+            }
+           
+            return false;
         }
 
         /// <summary>
