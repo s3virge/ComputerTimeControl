@@ -121,7 +121,7 @@ namespace TimeLimiter
         /// <summary>
         /// сравнить дату в реесте с текущей
         /// </summary>
-        public bool IsStoredRegDateAndTodayAreEquals()
+        public bool IsStoredDateAndTodayAreEquals()
         {
             DateTime pcStartDateTime = ReadTimeWhenComputerStartedWorking();
             return (pcStartDateTime.Date == DateTime.Today);

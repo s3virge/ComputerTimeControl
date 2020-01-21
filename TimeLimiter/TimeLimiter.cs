@@ -13,25 +13,28 @@ namespace TimeLimiter
             Register reg = new Register("TimeLimiter");
             reg.AddToRun();
 
-            if (!reg.IsKeyExist()) {
+            if (!reg.IsKeyExist())
+            {
                 reg.WriteCurrentDate();
                 //WriteDayTimeLimit(timeLimit);                
             }
-            else {
-                /*сравнить дату в реестре с текущей датой*/
-                /*если даті не совпадают значит комп включили уже в другой день, то*/
-                if (reg.IsStoredRegDateAndTodayAreEquals() != true) {
-                    /*устанавливаем новую дату */
-                    reg.WriteCurrentDate();
-                    reg.WriteNumberOfTimes("0");
-                }
+
+            /*сравнить дату в реестре с текущей датой*/
+            /*если даті не совпадают значит комп включили уже в другой день, то*/
+            if (reg.IsStoredDateAndTodayAreEquals() != true)
+            {
+                /*устанавливаем новую дату */
+                reg.WriteCurrentDate();
+                reg.WriteNumberOfTimes("0");
+                Console.WriteLine("The naxt day was rise");
             }
 
             //if exists command line arguments
             if (args.Length != 0)
-            {                
+            {
                 //argument is a number?
-                if (CheckArguments(args[0]) == false) {
+                if (CheckArguments(args[0]) == false)
+                {
                     Console.WriteLine("Command line arguments is incorrect.");
                 }
 
@@ -40,26 +43,14 @@ namespace TimeLimiter
                 reg.WriteEnabledNumberOfHours(args[0]);
             }
 
-            if (reg.IsKeyExist())
+            string numberH = reg.ReadEnabledNumberOfHours();
+            if (numberH == null)
             {
-                string numberH = reg.ReadEnabledNumberOfHours();
-                if (numberH == null) { 
-                    reg.WriteEnabledNumberOfHours(enabledNumberOfHoures);
-                }
+                reg.WriteEnabledNumberOfHours(enabledNumberOfHoures);
             }
 
-            //compare dates
-            //DateTime startDate = reg.ReadTimeWhenComputerStartedWorking();
-            //Console.WriteLine($"{startDate.Date}");
-            //if dates is different
-            //if (IsToday(startDate) != true)
-            //{
-            //    //then make NumberOfTimes equals zero
-            //    //reg.WriteNumberOfTimes("0");
-            //    //reg.WriteTimeWhenComputerStartedWorking();
-            //}
-
             int timeOut = 60 * 60 * 1000; //1 hour
+            //int timeOut = 60 * 60; //1 hour
 
             //check number of times
             int nTimes = Convert.ToInt32(reg.ReadNumberOfTimes());
@@ -77,25 +68,19 @@ namespace TimeLimiter
             reg.WriteNumberOfTimes((Convert.ToInt32(reg.ReadNumberOfTimes()) + 1).ToString());
         }
 
-        private bool CheckArguments(string arg) {
-            if (arg.Length > 1) {                
+        private bool CheckArguments(string arg)
+        {
+            if (arg.Length > 1)
+            {
                 return false;
             }
 
-            if (Char.IsDigit(arg, 0)){
+            if (Char.IsDigit(arg, 0))
+            {
                 return true;
             }
-           
-            return false;
-        }
 
-        /// <summary>
-        /// compare a DataTimes
-        /// </summary>
-        private bool IsToday(DateTime time)
-        {
-            Console.WriteLine($"time.Date = {time.Date} DateTime.Today = {DateTime.Today}");
-            return (time.Date == DateTime.Today);
+            return false;
         }
 
         public void ShutDown(int waitingTime)
