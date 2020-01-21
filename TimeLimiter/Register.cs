@@ -9,14 +9,18 @@ namespace TimeLimiter
     /*this class will write and read parametres from regestry*/
 
     class Register {
-        private const string regKey = "TimeLimiter";
+        private string regKey; // = "TimeLimiter";
         private const string regPcStartDateTime = "StartTime";
         private const string regDayTimeLimit = "TimeLimitPerDayInMinutes";
 
         private const string regEnabledNumberOfHours = "EnabledNumberOfHours";
         private const string regNumberOfTimes = "NumberOfTimes";
         private const int timeLimit = 2 * 60 + 10; //two hours = 120 min
-        
+
+        public Register(string keyName) {
+            regKey = keyName;
+        }
+
         //установить разрешенное число часов.
         public void WriteEnabledNumberOfHours(string numberOfHoures)
         {
@@ -73,26 +77,12 @@ namespace TimeLimiter
             return numberOfTimes;
         }
                 
-        public Register() {
-            /*record the time when computer is started working*/
-            if (!IsKeyExist()) {
-                WriteTimeWhenComputerStartedWorking();
-                //WriteDayTimeLimit(timeLimit);                
-            }
-            else {                                
-                /*сравнить дату в реестре с текущей датой*/
-                /*если даті не совпадают значит комп включили уже в другой день, то*/
-                if (IsStoredRegDateAndTodayAreEquals() != true) {
-                    /*устанавливаем новую дату */
-                    WriteTimeWhenComputerStartedWorking();
-                }
-            }
-        }
+       
 
         /// <summary>
         /// сохранить в реестр дату и время запуска комьютера в tiсks
         /// </summary>
-        public void WriteTimeWhenComputerStartedWorking() {
+        public void WriteCurrentDate() {
             DateTime dateTime = DateTime.Now;
 
             //сохранить в реестр дату и время запуска помьютора
@@ -131,7 +121,7 @@ namespace TimeLimiter
         /// <summary>
         /// сравнить дату в реесте с текущей
         /// </summary>
-        private bool IsStoredRegDateAndTodayAreEquals()
+        public bool IsStoredRegDateAndTodayAreEquals()
         {
             DateTime pcStartDateTime = ReadTimeWhenComputerStartedWorking();
             return (pcStartDateTime.Date == DateTime.Today);
@@ -165,12 +155,12 @@ namespace TimeLimiter
             return time;
         }
 
-        public static void DeleteKey() {
+        public void DeleteKey() {
             //    RegistryKey key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\" + regKey, true);
             //    key.DeleteValue("key1", false); // теперь при отсутствии ключа исключение не сгенерируется
             //    key.Close();
             try {
-                Registry.CurrentUser.DeleteSubKey(@"SOFTWARE\" + regKey);                
+                Registry.CurrentUser.DeleteSubKey($@"SOFTWARE\{regKey}");                
             }
             catch (ArgumentException aEx) {
                 Debug.WriteLine("{0}() method gen an exception {1}", System.Reflection.MethodBase.GetCurrentMethod().Name, aEx.Message);
