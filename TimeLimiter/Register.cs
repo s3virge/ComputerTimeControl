@@ -75,9 +75,7 @@ namespace TimeLimiter
             }
 
             return numberOfTimes;
-        }
-                
-       
+        }       
 
         /// <summary>
         /// сохранить в реестр дату и время запуска комьютера в tiсks

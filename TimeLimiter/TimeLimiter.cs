@@ -6,7 +6,7 @@ namespace TimeLimiter
 {
     class TimeLimiter
     {
-        private static string enabledNumberOfHoures = "2";
+        private static string enabledNumberOfHours = "2";
 
         public void Start(string[] args)
         {
@@ -15,8 +15,7 @@ namespace TimeLimiter
 
             if (!reg.IsKeyExist())
             {
-                reg.WriteCurrentDate();
-                //WriteDayTimeLimit(timeLimit);                
+                reg.WriteCurrentDate();              
             }
 
             /*сравнить дату в реестре с текущей датой*/
@@ -26,7 +25,7 @@ namespace TimeLimiter
                 /*устанавливаем новую дату */
                 reg.WriteCurrentDate();
                 reg.WriteNumberOfTimes("0");
-                Console.WriteLine("The naxt day was rise");
+                Console.WriteLine("The next day is came.");
             }
 
             //if exists command line arguments
@@ -46,7 +45,7 @@ namespace TimeLimiter
             string numberH = reg.ReadEnabledNumberOfHours();
             if (numberH == null)
             {
-                reg.WriteEnabledNumberOfHours(enabledNumberOfHoures);
+                reg.WriteEnabledNumberOfHours(enabledNumberOfHours);
             }
 
             int timeOut = 60 * 60 * 1000; //1 hour
